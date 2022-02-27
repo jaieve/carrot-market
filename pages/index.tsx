@@ -18,11 +18,6 @@ const Home: NextPage = () => {
             );
           })}
         </ul>
-        {["a", "b", "C", "D", ""].map((c, i) => (
-          <li key={i} className="bg-red-500 py-2 empty:hidden">
-            {c}
-          </li>
-        ))}
         <div className="mt-2 flex justify-between border-t-2 border-dashed pt-2">
           <span>Total</span>
           <span className="font-semibold">$10</span>
@@ -35,7 +30,8 @@ const Home: NextPage = () => {
           Checkout
         </button>
       </div>
-      <div className="overflow-hidden rounded-2xl bg-white shadow-xl">
+
+      <div className="group overflow-hidden rounded-2xl bg-white shadow-xl">
         <div className="bg-blue-500 p-6 pb-14">
           <span className="text-2xl text-white">Profile</span>
         </div>
@@ -45,7 +41,7 @@ const Home: NextPage = () => {
               <span className="text-sm text-gray-400">Orders</span>
               <span className="font- ">340</span>
             </div>
-            <div className="relative -top-12 h-24 w-24 rounded-full bg-red-400"></div>
+            <div className="relative -top-12 h-24 w-24 rounded-full bg-gray-400 transition-colors group-hover:bg-red-300" />
             <div className="flex flex-col items-center text-center">
               <span className="text-sm text-gray-400">Spent</span>
               <span className="font-medium">$2,310</span>
@@ -57,6 +53,7 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
+
       <div className="rounded-2xl bg-white p-10 shadow-xl">
         <div className="mb-5 flex items-center justify-between">
           <span>⬅</span>
