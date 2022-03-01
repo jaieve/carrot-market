@@ -4,7 +4,7 @@ const Home: NextPage = () => {
   // 4.7 강의 5분 46초
   return (
     <div className="grid min-h-screen gap-10 bg-slate-400 py-20 px-20 lg:grid-cols-2 xl:grid-cols-3 xl:place-content-center">
-      <div className="flex  flex-col justify-between rounded-3xl bg-white p-6 shadow-xl">
+      <div className="flex flex-col justify-between rounded-3xl bg-white p-6 shadow-xl dark:text-gray-50">
         <span className="text-2xl font-semibold">Select Item</span>
         <ul>
           <div className="my-2 flex justify-between ">
@@ -21,17 +21,17 @@ const Home: NextPage = () => {
           <span className="font-semibold">$10</span>
         </div>
         <button
-          className="mx-auto mt-5 block w-3/4
-          rounded-xl bg-blue-500 p-3 text-center text-white 
-          hover:bg-teal-500 hover:text-black
-          focus:bg-red-500 active:bg-yellow-500
+          className="dark:hover:bg-gray mx-auto mt-5 block  w-3/4 rounded-xl
+          bg-blue-500 p-3 text-center text-white hover:bg-teal-500 
+          hover:text-black focus:bg-red-500
+          active:bg-yellow-500 dark:border dark:bg-red-300 dark:hover:bg-black dark:hover:text-white
           "
         >
           Checkout
         </button>
       </div>
-      <div className="group overflow-hidden rounded-3xl bg-white shadow-xl">
-        <div className="p-6 pb-14 xl:pb-40 portrait:bg-indigo-600 landscape:bg-teal-500">
+      <div className="group overflow-hidden rounded-3xl bg-white shadow-xl ">
+        <div className="bg-indigo-600 p-6 pb-14 dark:border dark:bg-teal-500 xl:pb-40">
           <span className="text-2xl text-white">Profile</span>
         </div>
         <div className="relative -top-5 rounded-3xl bg-white p-6">
