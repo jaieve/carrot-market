@@ -5,18 +5,18 @@ const Community: NextPage = () => {
     <div className="space-y-8 py-16 px-4">
       {[1, 2, 3, 4, 5, 6].map((_, i) => (
         <div key={i} className="flex cursor-pointer flex-col items-start">
-          <span className="rounded-fill text-sx flex items-center bg-gray-100 px-2.5 py-0.5 font-medium text-gray-900">
+          <span className="rounded-fill ml-4 flex items-center bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
             동네질문
           </span>
-          <div className="mt-2 text-gray-700">
+          <div className="mt-2 px-4 text-gray-700">
             <span className="pr-2.5 font-semibold text-purple-500">Q.</span>
             What is the best mandu restaurant?
           </div>
-          <div className="mt-5 flex w-full items-center justify-between text-xs font-medium text-gray-500">
+          <div className="mt-5 flex w-full items-center justify-between px-4 text-xs font-medium text-gray-500">
             <span>니꼬</span>
             <span>18시간 전</span>
           </div>
-          <div className="mt-3 flex w-full space-x-5 border-t border-b-[2px] py-2.5 text-gray-700">
+          <div className="mt-3 flex w-full space-x-5 border-t border-b-[2px] px-4 py-2.5 text-gray-700">
             <span className="flex items-center space-x-2 text-sm">
               <svg
                 className="h-4 w-4"
@@ -54,7 +54,10 @@ const Community: NextPage = () => {
           </div>
         </div>
       ))}
-      <button className="fixed bottom-16 right-5 rounded-full bg-purple-400 p-3 text-white shadow-xl transition-colors hover:bg-purple-500">
+      <button
+        className="fixed bottom-16 right-5 cursor-pointer rounded-full bg-purple-400 p-4 text-white shadow-xl 
+      transition-colors hover:bg-purple-500"
+      >
         <svg
           className="h-6 w-6"
           fill="none"
