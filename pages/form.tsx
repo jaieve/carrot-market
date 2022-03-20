@@ -1,3 +1,4 @@
+import { setDefaultResultOrder } from "dns/promises";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -8,19 +9,32 @@ interface LoginForm {
   username: string;
   password: string;
   email: string;
+  errors?: string;
 }
 
 export default function Forms() {
-  const { register, handleSubmit } = useForm<LoginForm>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    setValue,
+    reset,
+    resetField,
+  } = useForm<LoginForm>({
+    mode: "onChange", // submit 누르기 전에 validate을 진행하겠다는 optiondms mode를 변경함으로써 줄 수 있다.
+  });
   const onValid = (data: LoginForm) => {
     console.log("I'm valid form");
+    setError("errors", { message: "Backend is offline sorry." });
+    setError("username", { message: "Someone already used that username" });
+    //  resetField("password");
+    reset();
   };
-  const onInvalid = (errors: FieldErrors) => {
-    console.log(errors);
-  };
+  console.log(errors);
 
   return (
-    <form onSubmit={handleSubmit(onValid, onInvalid)}>
+    <form onSubmit={handleSubmit(onValid)}>
       <input
         {...register("username", {
           required: "username is required",
@@ -32,13 +46,19 @@ export default function Forms() {
         type="text"
         placeholder="Username"
       />
+      {errors.username?.message}
       <input
         {...register("email", {
           required: "email is required",
+          validate: {
+            notGmail: (vlaue) =>
+              !vlaue.includes("@gmail.com") || "Gmail is not allowed",
+          },
         })}
         type="email"
         placeholder="Email"
       />
+      <span>{errors.email?.message}</span>
       <input
         {...register("password", {
           required: "password is required",
@@ -47,6 +67,7 @@ export default function Forms() {
         placeholder="Password"
       />
       <input type="submit" value="Create Account" />
+      {errors.errors?.message}
     </form>
   );
 }
