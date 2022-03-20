@@ -1,54 +1,30 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+
+// less code ✔
+// Better validation
+// Better errores(set, clear, display)
+// Have control over inputs
+// Don't deal with events ✔
+// Easier Inputs ✔
 
 export default function Forms() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const onUsernameChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
-    const {
-      currentTarget: { value },
-    } = event;
-    setUsername(value);
-  };
-  const onEmailChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
-    const {
-      currentTarget: { value },
-    } = event;
-    setEmail(value);
-  };
-  const onPasswordChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
-    const {
-      currentTarget: { value },
-    } = event;
-    setPassword(value);
-  };
-  const onSubmitChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    console.log(username, email, password);
-  };
-
+  const { register, watch } = useForm();
+  console.log(watch());
   return (
-    <form onSubmit={onSubmitChange}>
+    <form>
       <input
-        value={username}
+        {...register("username")} // = name, onChange 이벤트
         type="text"
         required
         placeholder="Username"
-        onChange={onUsernameChange}
       />
+      <input {...register("email")} type="email" required placeholder="Email" />
       <input
-        value={email}
-        type="email"
-        required
-        placeholder="Email"
-        onChange={onEmailChange}
-      />
-      <input
-        value={password}
+        {...register("password")}
         type="password"
         required
         placeholder="Password"
-        onChange={onPasswordChange}
       />
       <input type="submit" value="Create Account" />
     </form>
