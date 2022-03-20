@@ -1,41 +1,47 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
-// less code ✔
 // Better validation
 // Better errores(set, clear, display)
 // Have control over inputs
-// Don't deal with events ✔
-// Easier Inputs ✔
+interface LoginForm {
+  username: string;
+  password: string;
+  email: string;
+}
 
 export default function Forms() {
-  const { register, handleSubmit } = useForm();
-  const onValid = () => {
+  const { register, handleSubmit } = useForm<LoginForm>();
+  const onValid = (data: LoginForm) => {
     console.log("I'm valid form");
   };
-  const onInvalid = () => {
-    console.log("I'm INVALID form");
+  const onInvalid = (errors: FieldErrors) => {
+    console.log(errors);
   };
 
   return (
     <form onSubmit={handleSubmit(onValid, onInvalid)}>
       <input
         {...register("username", {
-          required: true,
+          required: "username is required",
+          minLength: {
+            message: "The username should be longer than 5 chars",
+            value: 5,
+          },
         })} // = name, onChange 이벤트
         type="text"
         placeholder="Username"
       />
       <input
         {...register("email", {
-          required: true,
+          required: "email is required",
         })}
         type="email"
         placeholder="Email"
       />
       <input
         {...register("password", {
-          required: true,
+          required: "password is required",
         })}
         type="password"
         placeholder="Password"
