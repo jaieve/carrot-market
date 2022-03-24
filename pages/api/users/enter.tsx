@@ -1,9 +1,11 @@
 import twilio from "twilio";
+import mail from "@sendgrid/mail";
 import withHandler, { ResponseType } from "@libs/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/client";
 import { prisma } from "@prisma/client";
 
+mail.setApiKey(process.env.SENDGRID_KEY!);
 const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
 
 async function handler(
@@ -40,6 +42,15 @@ async function handler(
       body: `Your login token is ${payload}`,
     });
     console.log(message);
+  } else if (email) {
+    const email = await mail.send({
+      from: "yoori0303@naver.com",
+      to: "yoori0303@naver.com",
+      subject: "Your Eggplant Market Verification Email",
+      text: `Your token is ${payload}`,
+      html: `<strong>Your token is ${payload}</strong>`,
+    });
+    console.log(email);
   }
 
   return res.json({
