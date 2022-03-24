@@ -24,7 +24,7 @@ export default function Enter() {
     setMethod("phone");
   };
   const onValid = (validForm: EnterForm) => {
-    enter(validForm);
+    enter(validForm); // email or phone
   };
   console.log(loading, data, error);
   return (
