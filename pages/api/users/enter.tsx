@@ -1,5 +1,4 @@
 import withHandler from "@libs/server/withHandler";
-//import withHandler from "../../../libs/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/client";
 import { prisma } from "@prisma/client";
@@ -7,7 +6,7 @@ import { prisma } from "@prisma/client";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { phone, email } = req.body;
   const paylod = phone ? { phone: +phone } : { email };
-  const user = await client.user.upsert({
+  /*   const user = await client.user.upsert({
     where: {
       ...paylod,
     },
@@ -16,8 +15,27 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       ...paylod,
     },
     update: {},
+  }); */
+  const token = await client.token.create({
+    data: {
+      payload: "132123157",
+      user: {
+        // connect : db에 이미 존재하는 user data와 token을 연결
+        // create : 새로운 token을 만들면서 새로운 user 만듦
+        // connectOrCreate : User를 찾지 못한다면 새로운 suer 만들어서 token과 연결
+        connectOrCreate: {
+          where: {
+            ...paylod,
+          },
+          create: {
+            name: "Anonymous",
+            ...paylod,
+          },
+        },
+      },
+    },
   });
-  console.log(user);
+  console.log(token);
   /* if (email) {
     user = await client.user.findUnique({
       where: {
