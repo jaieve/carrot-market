@@ -10,7 +10,6 @@ interface EnterForm {
   phone?: string;
 }
 
-// 8.0 5분 4ㅊ초
 export default function Enter() {
   const [enter, { loading, data, error }] = useMutation("/api/users/enter");
   const [submitting, setSubmitting] = useState(false);
@@ -24,9 +23,10 @@ export default function Enter() {
     reset();
     setMethod("phone");
   };
-  const onValid = (data: EnterForm) => {
-    enter(data);
+  const onValid = (validForm: EnterForm) => {
+    enter(validForm);
   };
+  console.log(loading, data, error);
   return (
     <div className="mt-16 px-4">
       <h3 className="text-center text-3xl font-bold">Enter to Carrot</h3>
