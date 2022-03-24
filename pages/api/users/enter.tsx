@@ -12,3 +12,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 // test url : http://localhost:3000/api/client-test
 
 export default withHandler("POST", handler);
+
+// 1. phone # ---> User?
+// 2. token^User  #randomNumber
+// 3. #randomNumber --> SMS --> phone #(Twilio)
+// 4. (after get tocken) show input#tocken at view
+// 5. submit : #randomNumber --> Token?^User ---> Log the user
