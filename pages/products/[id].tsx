@@ -2,11 +2,12 @@ import type { NextPage } from "next";
 import Button from "@components/button";
 import Layout from "@components/layout";
 import { useRouter } from "next/router";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import Link from "next/link";
 import { Product, User } from "@prisma/client";
 import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
+import useUser from "@libs/client/useUser";
 
 interface ProductWithUser extends Product {
   user: User;
@@ -19,19 +20,23 @@ interface ItemDetailResponse {
 }
 
 const ItemDetail: NextPage = () => {
+  const { user, isLoading } = useUser(); // 로그아웃된 상태라면 /enter 페이지로 redirect
   const router = useRouter();
-  const { data, mutate } = useSWR<ItemDetailResponse>(
+  const { mutate } = useSWRConfig();
+  const { data, mutate: boundMutate } = useSWR<ItemDetailResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
   const [toggleFav] = useMutation(`/api/products/${router.query.id}/fav`); // return array
   const onFavClick = () => {
     if (!data) return;
-    mutate({ ...data, isLiked: !data.isLiked }, false); //
-    toggleFav({}); /// {} 라고 빈 객체를 넣어주면 body가 비어있는 post요청이 된다. 문제는 없음
     /*
     @first : 유저에게 화면UI의 변경사항을 보여주기 위한 부분. 원하는 어떤 데이터 형식이든 넣을 수 있다.
     @second : 변경이 일어난 후에 다시 API에서 데이터를 불러올지를 결정하는 boolean
     */
+    boundMutate((prev) => prev && { ...prev, isLiked: !data.isLiked }, false);
+    // 함수의 인자(prev)로 기존의 캐시에 있던 데이터를 받을 수 있다.
+    // mutate("/api/users/me", (prev: any) => ({ ok: !prev.ok }), false);
+    toggleFav({}); /// {} 라고 빈 객체를 넣어주면 body가 비어있는 post요청이 된다. 문제는 없음
   };
 
   return (
