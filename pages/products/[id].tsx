@@ -20,15 +20,22 @@ interface ItemDetailResponse {
 
 const ItemDetail: NextPage = () => {
   const router = useRouter();
-  const { data, error } = useSWR<ItemDetailResponse>(
+  const { data, mutate } = useSWR<ItemDetailResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
   const [toggleFav] = useMutation(`/api/products/${router.query.id}/fav`); // return array
   const onFavClick = () => {
-    toggleFav({}); // {} 라고 빈 객체를 넣어주면 body가 비어있는 post요청이 된다. 문제는 없음
+    if (!data) return;
+    mutate({ ...data, isLiked: !data.isLiked }, false); //
+    toggleFav({}); /// {} 라고 빈 객체를 넣어주면 body가 비어있는 post요청이 된다. 문제는 없음
+    /*
+    @first : 유저에게 화면UI의 변경사항을 보여주기 위한 부분. 원하는 어떤 데이터 형식이든 넣을 수 있다.
+    @second : 변경이 일어난 후에 다시 API에서 데이터를 불러올지를 결정하는 boolean
+    */
   };
+
   return (
-    <Layout canGoBack title="Item">
+    <Layout canGoBack>
       <div className="px-4 py-4">
         <div className="mb-8">
           <div className="h-96 bg-slate-300" />
@@ -58,24 +65,24 @@ const ItemDetail: NextPage = () => {
               <button
                 onClick={onFavClick}
                 className={cls(
-                  "flex items-center justify-center rounded-md p-3",
+                  "flex items-center justify-center rounded-md p-3 hover:bg-gray-100 ",
                   data?.isLiked
-                    ? "text-red-400 hover:bg-red-100 hover:text-red-500"
-                    : "text-gray-400 hover:bg-gray-100 hover:text-gray-500"
+                    ? "text-red-500  hover:text-red-600"
+                    : "text-gray-400  hover:text-gray-500"
                 )}
               >
                 {data?.isLiked ? (
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6"
-                    viewBox="0 0 20 20"
                     fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
                       fillRule="evenodd"
                       d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
                       clipRule="evenodd"
-                    />
+                    ></path>
                   </svg>
                 ) : (
                   <svg
@@ -120,4 +127,5 @@ const ItemDetail: NextPage = () => {
     </Layout>
   );
 };
+
 export default ItemDetail;

@@ -54,8 +54,8 @@ async function handler(
   res.json({
     ok: true,
     product,
-    relatedProducts,
     isLiked,
+    relatedProducts,
   });
 }
 export default withApiSession(
