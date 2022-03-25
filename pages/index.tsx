@@ -6,7 +6,7 @@ import useUser from "@libs/client/useUser";
 import Head from "next/head";
 
 const Home: NextPage = () => {
-  const user = useUser(); // useUser는 유저 데이터에 접근할 수 있는 hook이다.
+  const { user, isLoading } = useUser(); // useUser는 유저 데이터에 접근할 수 있는 hook이다.
   console.log(user);
   return (
     <Layout title="홈" hasTabBar>
