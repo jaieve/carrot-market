@@ -8,6 +8,7 @@ async function handler(
   res: NextApiResponse<ResponseType>
 ) {
   const profile = await client.user.findUnique({
+    // 로그인 하지 않은채로 API에 접근한다면 아래의 코드에서 id : undefined
     where: { id: req.session.user?.id },
   });
   res.json({
@@ -16,4 +17,9 @@ async function handler(
   });
 }
 
-export default withApiSession(withHandler("GET", handler));
+export default withApiSession(
+  withHandler({
+    method: "GET",
+    handler,
+  })
+);
