@@ -13,7 +13,6 @@ interface ProductResponse {
 }
 
 const Home: NextPage = () => {
-  const { user, isLoading } = useUser(); // useUser는 유저 데이터에 접근할 수 있는 hook이다.
   const { data } = useSWR<ProductResponse>("/api/products");
   console.log(data);
   return (
