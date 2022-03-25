@@ -15,7 +15,10 @@ export default function withHandler(
   fn: (req: NextApiRequest, res: NextApiResponse) => void
 ) {
   // this is a funciton which nextJS run
-  return async function (req: NextApiRequest, res: NextApiResponse) {
+  return async function (
+    req: NextApiRequest,
+    res: NextApiResponse
+  ): Promise<any> {
     if (req.method !== method) {
       return res.status(405).end();
     }
