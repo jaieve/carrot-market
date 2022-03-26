@@ -17,11 +17,19 @@ interface ReviewsResponse {
 const Profile: NextPage = () => {
   const { user } = useUser();
   const { data } = useSWR<ReviewsResponse>(`/api/reviews`);
+  // https://imagedelivery.net/Jbn0son-X4aW02A0_gVqgA/<image_id>/public
   return (
     <Layout hasTabBar title="나의 🍆">
       <div className="py-10 px-4">
         <div className="flex items-center space-x-3">
-          <div className="h-16 w-16 rounded-full bg-slate-600" />
+          {user?.avatar ? (
+            <img
+              src={`https://imagedelivery.net/Jbn0son-X4aW02A0_gVqgA/${user?.avatar}/public`}
+              className="h-16 w-16 rounded-full bg-slate-600"
+            />
+          ) : (
+            <div className="h-16 w-16 rounded-full bg-slate-600" />
+          )}
           <div className="flex flex-col">
             <span className="font-semibold text-gray-900">{user?.name}</span>
             <Link href="/profile/edit">
