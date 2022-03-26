@@ -11,10 +11,20 @@ async function handler(
     query: { id },
     session: { user },
   } = req;
+  const post = await client.post.findUnique({
+    where: {
+      id: +id.toString(),
+    },
+    select: {
+      id: true,
+    },
+  });
+  if (!post) res.status(404).json({ ok: false, error: "Not found Post" });
+
   const alreadyExists = await client.wondering.findFirst({
     where: {
       userId: user?.id,
-      postId: +id.toString(),
+      postId: post?.id,
     },
     select: {
       id: true,
@@ -36,7 +46,7 @@ async function handler(
         },
         post: {
           connect: {
-            id: +id.toString(),
+            id: post?.id,
           },
         },
       },

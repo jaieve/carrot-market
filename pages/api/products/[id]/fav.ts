@@ -11,9 +11,19 @@ async function handler(
     query: { id },
     session: { user },
   } = req;
+  const product = await client.product.findUnique({
+    where: {
+      id: +id.toString(),
+    },
+    select: {
+      id: true,
+    },
+  });
+  if (!product) res.status(404).json({ ok: false, error: "Not found Product" });
+
   const alreadyExists = await client.fav.findFirst({
     where: {
-      productId: +id.toString(),
+      productId: product?.id,
       userId: user?.id,
     },
   });
@@ -35,7 +45,7 @@ async function handler(
         },
         product: {
           connect: {
-            id: +id.toString(),
+            id: product?.id,
           },
         },
       },
