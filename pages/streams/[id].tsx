@@ -32,7 +32,10 @@ const LineDetail: NextPage = () => {
   const { user } = useUser();
   const router = useRouter();
   const { data, mutate } = useSWR<StreamResponse>(
-    `/api/streams/${router.query.id}`
+    router.query.id ? `/api/streams/${router.query.id}` : null,
+    {
+      refreshInterval: 1000,
+    }
   );
   const { register, handleSubmit, reset } = useForm();
   // POST
@@ -43,13 +46,28 @@ const LineDetail: NextPage = () => {
   const onValid = (form: MessageForm) => {
     if (!form) return;
     reset();
-    snedMessage(form);
+    mutate(
+      (prev) =>
+        prev && {
+          ...prev,
+          stream: {
+            ...prev.stream,
+            messages: [
+              ...prev.stream.messages,
+              {
+                id: Date.now(),
+                message: form.message,
+                user: {
+                  ...user,
+                },
+              },
+            ],
+          },
+        },
+      false
+    ); // 백엔드로 보내기전 실행할 함수. 함수를 쓰면 1st param : 캐시의 모든 이전 데이터
+    //snedMessage(form); // 백엔드로 POST 요청을 보내는 함수
   };
-  useEffect(() => {
-    if (sendMessageData && sendMessageData.ok) {
-      mutate(); // re-fetch silent
-    }
-  }, [sendMessageData, mutate]);
 
   return (
     <Layout canGoBack>
