@@ -8,6 +8,7 @@ import { User, Answer, Post } from "@prisma/client";
 import { useEffect } from "react";
 import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
+import { useForm } from "react-hook-form";
 
 interface AnswerWithUser extends Answer {
   answer: Answer;
@@ -28,15 +29,36 @@ interface CommunityPostResponse {
   isWondering: boolean;
 }
 
+interface AnswerForm {
+  answer: String;
+}
+interface AnswerResponse {
+  ok: boolean;
+  answer: Answer;
+}
+
 const CommunityPostDetail: NextPage = () => {
+  const router = useRouter();
+  const { register, handleSubmit, reset } = useForm<AnswerForm>();
+  const [sendAnswer, { loading: answerLoading, data: answerData }] =
+    useMutation<AnswerResponse>(`/api/posts/${router.query.id}/answer`);
+  const onValid = (form: AnswerForm) => {
+    if (answerLoading) return;
+    sendAnswer(form);
+  };
+  useEffect(() => {
+    // answerData가 ok라면 form reset
+    if (answerData && answerData.ok) reset();
+  }, [answerData, reset]);
   // 1. router, useSWR 사용
   // 2.
-  const router = useRouter();
   const { data, mutate } = useSWR<CommunityPostResponse>(
     router.query.id ? `/api/posts/${router.query.id}` : null
   );
   // 궁금해요 클릭했을 경우 useMutation은 함수를 return
-  const [wonder] = useMutation(`/api/posts/${router.query.id}/wonder`);
+  const [wonder, { loading }] = useMutation(
+    `/api/posts/${router.query.id}/wonder`
+  );
   const handleClickWonder = () => {
     if (!data) return;
     mutate(
@@ -55,7 +77,10 @@ const CommunityPostDetail: NextPage = () => {
       },
       false
     );
-    wonder({}); // 해당코드가 실행되면 백엔드로 넘어간다. mutate함수 테스트할 때는 주석처리
+    if (!loading) {
+      // 궁금해요 data의 삭제와 생성이 동시에 요청되는 것을 막기 위함(race condition)
+      wonder({}); // 해당코드가 실행되면 백엔드로 넘어간다. mutate함수 테스트할 때는 주석처리
+    }
   };
 
   useEffect(() => {
@@ -146,16 +171,17 @@ const CommunityPostDetail: NextPage = () => {
             </div>
           ))}
         </div>
-        <div className="px-4">
+        <form onSubmit={handleSubmit(onValid)} className="px-4">
           <TextArea
             name="description"
             placeholder="Answer this question!"
             required
+            register={register("answer", { required: true, minLength: 10 })}
           />
           <button className="mt-2 w-full rounded-md border border-transparent bg-purple-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 ">
-            Reply
+            {answerLoading ? "Loading..." : "Reply"}
           </button>
-        </div>
+        </form>
       </div>
     </Layout>
   );
