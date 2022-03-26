@@ -24,6 +24,7 @@ const Create: NextPage = () => {
   const [createStream, { data, loading }] =
     useMutation<CreateResponse>(`/api/streams`);
   const onValid = (form: CreateForm) => {
+    if (loading) return;
     createStream(form);
   };
   useEffect(() => {
@@ -42,7 +43,7 @@ const Create: NextPage = () => {
           type="text"
         />
         <Input
-          register={register("price", { required: true })}
+          register={register("price", { required: true, valueAsNumber: true })}
           required
           label="Price"
           name="price"
