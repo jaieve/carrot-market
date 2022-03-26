@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import Link from "next/link";
 import { User, Answer, Post } from "@prisma/client";
+import { useEffect } from "react";
 
 interface AnswerWithUser extends Answer {
   answer: Answer;
@@ -31,7 +32,11 @@ const CommunityPostDetail: NextPage = () => {
   const { data, error } = useSWR<CommunityPostResponse>(
     router.query.id ? `/api/posts/${router.query.id}` : null
   );
-  console.log(data); // if post === null => redirect(not found page)
+  useEffect(() => {
+    // if post === null => redirect(not found page)
+    if (data && !data.ok) router.push("/community");
+  }, [data, router]);
+
   return (
     <Layout canGoBack>
       <div>

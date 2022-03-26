@@ -43,6 +43,7 @@ async function handler(
       },
     },
   });
+  if (!post) res.json({ ok: false, error: "Not Found Post" });
   res.json({
     ok: true,
     post, // 만약 해당 id의 post가 없다면 null이 반환될 것이다. 반환된 페이지에서 404 not found 처리를 해줘야 한다.
