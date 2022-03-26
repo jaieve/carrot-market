@@ -46,10 +46,6 @@ const CommunityPostDetail: NextPage = () => {
     if (answerLoading) return;
     sendAnswer(form);
   };
-  useEffect(() => {
-    // answerData가 ok라면 form reset
-    if (answerData && answerData.ok) reset();
-  }, [answerData, reset]);
   // 1. router, useSWR 사용
   // 2.
   const { data, mutate } = useSWR<CommunityPostResponse>(
@@ -59,6 +55,13 @@ const CommunityPostDetail: NextPage = () => {
   const [wonder, { loading }] = useMutation(
     `/api/posts/${router.query.id}/wonder`
   );
+  useEffect(() => {
+    // answerData가 ok라면 form reset
+    if (answerData && answerData.ok) {
+      reset();
+      mutate();
+    }
+  }, [answerData, reset, mutate]);
   const handleClickWonder = () => {
     if (!data) return;
     mutate(
