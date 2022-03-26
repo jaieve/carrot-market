@@ -11,9 +11,18 @@ async function handler(
   const {
     session: { user },
     body: { name, price, description },
+    query: { page, pageSize },
   } = req;
   if (req.method === "GET") {
-    const streams = await client.stream.findMany({});
+    const streams = await client.stream.findMany({
+      // back = front - 1
+      // pageSize = 10
+
+      // take : pageSize
+      // skip : back * pageSize
+      take: Number(pageSize),
+      skip: Number(pageSize) * (Number(page) - 1),
+    });
     res.json({
       ok: true,
       streams,

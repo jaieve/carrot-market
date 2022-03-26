@@ -32,11 +32,13 @@ async function handler(
   }
   if (req.method === "GET") {
     const {
-      query: { latitude, longitude },
+      query: { latitude, longitude, page, pageSize },
     } = req;
     const latitudeF = parseFloat(latitude.toString());
     const longitudeF = parseFloat(longitude.toString());
     const posts = await client.post.findMany({
+      /* take: parseInt(pageSize.toString()),
+      skip: parseInt(pageSize.toString()) * (parseInt(page.toString()) - 1), */
       where: {
         latitude: {
           gte: latitudeF - 0.01,

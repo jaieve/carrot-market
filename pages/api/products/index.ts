@@ -9,6 +9,8 @@ async function handler(
 ) {
   if (req.method === "GET") {
     const products = await client.product.findMany({
+      /* take: parseInt(10),
+      skip: parseInt(10), */
       include: {
         _count: {
           select: {

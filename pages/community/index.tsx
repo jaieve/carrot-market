@@ -20,9 +20,11 @@ interface Posts {
 
 const Community: NextPage = () => {
   const { latitude, longitude } = useCoords();
+  const page = 10;
+  const pageSize = 10;
   const { data } = useSWR<Posts>(
     latitude && longitude
-      ? `/api/posts?latitude=${latitude}&longitude=${longitude}`
+      ? `/api/posts?latitude=${latitude}&longitude=${longitude}&page=${page}&pageSize=${pageSize}`
       : null
   );
   return (

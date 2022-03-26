@@ -25,6 +25,8 @@ async function handler(
         },
       },
       answers: {
+        take: parseInt(10),
+        skip: parseInt(0),
         select: {
           answer: true,
           id: true,
