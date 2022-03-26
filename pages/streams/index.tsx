@@ -3,6 +3,7 @@ import Link from "next/link";
 import FloatingButton from "@components/floating-button";
 import Layout from "@components/layout";
 import useSWR from "swr";
+import { Stream } from "@prisma/client";
 
 interface StreamsResponse {
   ok: boolean;
