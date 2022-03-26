@@ -4,7 +4,7 @@ import Layout from "@components/layout";
 
 const Profile: NextPage = () => {
   return (
-    <Layout hasTabBar title="나의 가지">
+    <Layout hasTabBar title="나의 🍆">
       <div className="py-10 px-4">
         <div className="flex items-center space-x-3">
           <div className="h-16 w-16 rounded-full bg-slate-600" />
