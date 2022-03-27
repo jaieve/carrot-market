@@ -126,10 +126,16 @@ const ItemDetail: NextPage = () => {
           <h2 className="text-2xl font-bold text-gray-900">Similar items</h2>
           <div className=" mt-6 grid grid-cols-2 gap-4">
             {data?.relatedProducts?.map((product) => (
-              <Link href={`/products/${product?.id}`}>
+              <Link key={product?.id} href={`/products/${product?.id}`}>
                 <a>
-                  <div key={product?.id}>
-                    <div className="mb-4 h-56 w-full bg-slate-300" />
+                  <div>
+                    <div className="relative mb-4 h-56 w-full rounded-md bg-slate-300 shadow-sm">
+                      <Image
+                        layout="fill"
+                        className="rounded-md shadow-sm"
+                        src={`https://imagedelivery.net/Jbn0son-X4aW02A0_gVqgA/${product?.image}/public`}
+                      ></Image>
+                    </div>
                     <h3 className="-mb-1 text-gray-700">{product?.name}</h3>
                     <span className="text-sm font-medium text-gray-900">
                       ${product?.price}
