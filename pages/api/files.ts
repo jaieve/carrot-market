@@ -14,7 +14,7 @@ async function handler(
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${process.env.CF_API}`,
+          Authorization: `Bearer ${process.env.CF_API_IMAGE}`,
         },
       }
     )

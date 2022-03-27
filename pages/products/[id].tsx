@@ -50,9 +50,6 @@ const ItemDetail: NextPage = () => {
               className="bg-slate-300 object-cover"
               src={`https://imagedelivery.net/Jbn0son-X4aW02A0_gVqgA/${data?.product?.image}/public`}
             />
-            <h3 className="absolute w-full text-center text-purple-500">
-              image is used like background{" "}
-            </h3>
           </div>
           <div className="flex cursor-pointer items-center space-x-3 border-t border-b py-3">
             <Image

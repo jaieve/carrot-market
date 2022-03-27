@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
 import useUser from "@libs/client/useUser";
 import { useEffect } from "react";
+import streams from "pages/api/streams";
 
 interface StreamMessage {
   message: string;
@@ -81,6 +82,17 @@ const LineDetail: NextPage = () => {
             ${data?.stream?.price}
           </span>
           <p className=" my-6 text-gray-700">{data?.stream?.description}</p>
+          <div className="flex flex-col space-y-3 overflow-scroll rounded-md bg-purple-300 p-5">
+            <span>Stream Keys(secret)</span>
+            <span className="font-medium text-gray-600">
+              <span className="text-gray-800">URL: </span>
+              {data?.stream.cloudflareUrl}
+            </span>
+            <span className="font-medium text-gray-600">
+              <span className="text-gray-800">KEY: </span>
+              {data?.stream.cloudflareKey}
+            </span>
+          </div>
         </div>
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Live Chat</h2>

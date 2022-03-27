@@ -49,7 +49,7 @@ export default function Input({
             className="w-full appearance-none rounded-md border border-gray-300 px-3 py-2 pl-7 placeholder-gray-500 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-purple-500"
           />
           <div className="pointer-events-none absolute right-0 flex items-center pr-3">
-            <span className="text-gray-500">KRW</span>
+            <span className="text-gray-500"></span>
           </div>
         </div>
       ) : null}

@@ -11,7 +11,7 @@ async function handler(
     query: { id },
     session: { user },
   } = req;
-  const stream = await client.stream.findUnique({
+  var stream = await client.stream.findUnique({
     where: {
       id: +id.toString(),
     },
@@ -30,10 +30,14 @@ async function handler(
       },
     },
   });
-
+  const isOwner = stream?.userId == user?.id;
+  if (!isOwner) {
+    delete stream?.cloudflareKey;
+    delete stream?.cloudflareUrl;
+  }
   res.json({
     ok: true,
-    stream,
+    stream: stream,
   });
 }
 
