@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { Product } from "@prisma/client";
 import { useRouter } from "next/router";
 import { PhoneNumberContext } from "twilio/lib/rest/lookups/v1/phoneNumber";
+import Swal from "sweetalert2";
 
 interface UploadProductForm {
   name: string;
@@ -54,7 +55,9 @@ const Upload: NextPage = () => {
   };
   useEffect(() => {
     if (data?.ok) {
-      router.push(`/products/${data.product.id}`);
+      Swal.fire("등록완료", "", "success").then(async (result) => {
+        await router.push(`/products/${data.product.id}`);
+      });
     }
   }, [data, router]);
   const photo = watch("photo");
@@ -72,10 +75,10 @@ const Upload: NextPage = () => {
           {photoPreview ? (
             <img
               src={photoPreview}
-              className="h-46 aspect-video w-full rounded-md"
+              className="aspect-video h-96 w-full rounded-md"
             />
           ) : (
-            <label className="flex h-48 w-full cursor-pointer items-center justify-center rounded-md border-2 border-dashed border-gray-300 text-gray-600 hover:border-purple-500 hover:text-purple-500">
+            <label className="flex h-96 w-full cursor-pointer items-center justify-center rounded-md border-2 border-dashed border-gray-300 text-gray-600 hover:border-purple-500 hover:text-purple-500">
               <svg
                 className="h-12 w-12"
                 stroke="currentColor"
