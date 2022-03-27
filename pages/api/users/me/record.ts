@@ -14,16 +14,11 @@ async function handler(
   const records = await client.record.findMany({
     where: {
       userId: user?.id,
-      kind: kind,
     },
     include: {
       product: {
         include: {
-          _count: {
-            select: {
-              favs: true,
-            },
-          },
+          records: true,
         },
       },
     },
