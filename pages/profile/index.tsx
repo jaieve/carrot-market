@@ -5,6 +5,7 @@ import useUser from "@libs/client/useUser";
 import useSWR from "swr";
 import { User, Review } from "@prisma/client";
 import { cls } from "@libs/client/utils";
+import Image from "next/image";
 
 interface ReviewWithUser extends Review {
   writer: User;
@@ -111,7 +112,13 @@ const Profile: NextPage = () => {
         {data?.reviews?.map((review) => (
           <div key={review.id} className="mt-12">
             <div className="flex items-center space-x-4">
-              <div className="h-12 w-12 items-center rounded-full bg-slate-400 " />
+              <div className="relative h-12 w-12 items-center rounded-full bg-slate-400 ">
+                <Image
+                  layout="fill"
+                  src={`https://imagedelivery.net/Jbn0son-X4aW02A0_gVqgA/${review.writer.avatar}/avatar`}
+                  className="h-12 w-12 items-center rounded-full bg-slate-400 "
+                />
+              </div>
               <div>
                 <h4 className="text-sm font-bold text-gray-800 ">
                   {review.writer.name}

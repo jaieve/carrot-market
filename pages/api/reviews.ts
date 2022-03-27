@@ -24,8 +24,6 @@ async function handler(
       },
     },
   });
-  console.log(reviews);
-
   res.json({
     ok: true,
     reviews,
