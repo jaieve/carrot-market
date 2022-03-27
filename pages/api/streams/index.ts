@@ -52,8 +52,8 @@ async function handler(
         price,
         description,
         cloudflareId: uid,
-        cloudflareUrl: streamKey,
-        cloudflareKey: url,
+        cloudflareUrl: url,
+        cloudflareKey: streamKey,
         user: {
           connect: {
             id: user?.id,

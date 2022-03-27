@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
 import useUser from "@libs/client/useUser";
 import { useEffect } from "react";
-import streams from "pages/api/streams";
 
 interface StreamMessage {
   message: string;
@@ -73,7 +72,12 @@ const LineDetail: NextPage = () => {
   return (
     <Layout canGoBack>
       <div className="space-y-4 py-10  px-4">
-        <div className="aspect-video w-full rounded-md bg-slate-300 shadow-sm" />
+        <iframe
+          src={`https://iframe.videodelivery.net/${data?.stream.cloudflareId}`}
+          className="aspect-video w-full rounded-md shadow-sm"
+          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+          allowFullScreen={true}
+        ></iframe>
         <div className="mt-5">
           <h1 className="text-3xl font-bold text-gray-900">
             {data?.stream?.name}
