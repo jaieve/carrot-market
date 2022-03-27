@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import useUser from "@libs/client/useUser";
 import { mutate } from "swr";
 import useMutation from "@libs/client/useMutation";
+import Swal from "sweetalert2";
+import Router, { useRouter } from "next/router";
 
 interface EditProfileForm {
   email?: string;
@@ -80,6 +82,7 @@ const EditProfile: NextPage = () => {
   };
   const [avatarPreview, setAvatarPreview] = useState("");
   const avatar = watch("avatar");
+  const router = useRouter();
   useEffect(() => {
     if (avatar && avatar.length > 0) {
       const file = avatar[0]; // typeof File
@@ -89,6 +92,10 @@ const EditProfile: NextPage = () => {
   useEffect(() => {
     if (data && !data.ok && data.error) {
       setError("formErrors", { message: data.error });
+    } else if (data && data.ok) {
+      Swal.fire("", "정보수정 완료").then(async (result) => {
+        await router.push("/profile");
+      });
     }
   }, [data, setError]);
   return (
