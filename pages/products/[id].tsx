@@ -74,7 +74,7 @@ const ItemDetail: NextPage = () => {
               {data?.product?.name}
             </h1>
             <span className="mt-3 block text-2xl text-gray-900">
-              ${data?.product?.price}
+              ￦{data?.product?.price.toLocaleString("ko-KR")}
             </span>
             <p className=" my-6 text-gray-700">{data?.product?.description}</p>
             <div className="flex items-center justify-between space-x-2">

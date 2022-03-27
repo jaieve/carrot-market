@@ -83,7 +83,7 @@ const LineDetail: NextPage = () => {
             {data?.stream?.name}
           </h1>
           <span className="mt-3 block text-2xl text-gray-900">
-            ${data?.stream?.price}
+            ￦{data?.stream?.price.toLocaleString("ko-KR")}
           </span>
           <p className=" my-6 text-gray-700">{data?.stream?.description}</p>
           <div className="flex flex-col space-y-3 overflow-scroll rounded-md bg-purple-300 p-5">
