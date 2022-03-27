@@ -66,7 +66,7 @@ const LineDetail: NextPage = () => {
         },
       false
     ); // 백엔드로 보내기전 실행할 함수. 함수를 쓰면 1st param : 캐시의 모든 이전 데이터
-    //snedMessage(form); // 백엔드로 POST 요청을 보내는 함수
+    snedMessage(form); // 백엔드로 POST 요청을 보내는 함수
   };
 
   return (
@@ -86,17 +86,19 @@ const LineDetail: NextPage = () => {
             ￦{data?.stream?.price.toLocaleString("ko-KR")}
           </span>
           <p className=" my-6 text-gray-700">{data?.stream?.description}</p>
-          <div className="flex flex-col space-y-3 overflow-scroll rounded-md bg-purple-300 p-5">
-            <span>Stream Keys(secret)</span>
-            <span className="font-medium text-gray-600">
-              <span className="text-gray-800">URL: </span>
-              {data?.stream.cloudflareUrl}
-            </span>
-            <span className="font-medium text-gray-600">
-              <span className="text-gray-800">KEY: </span>
-              {data?.stream.cloudflareKey}
-            </span>
-          </div>
+          {data?.stream?.userId === user?.id ? (
+            <div className="flex flex-col space-y-3 overflow-scroll rounded-md bg-purple-300 p-5">
+              <h4>Stream Keys(secret)</h4>
+              <span className="font-medium text-gray-600">
+                <span className="text-gray-800">URL: </span>
+                {data?.stream.cloudflareUrl}
+              </span>
+              <span className="font-medium text-gray-600">
+                <span className="text-gray-800">KEY: </span>
+                {data?.stream.cloudflareKey}
+              </span>
+            </div>
+          ) : null}
         </div>
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Live Chat</h2>
@@ -105,6 +107,7 @@ const LineDetail: NextPage = () => {
               <Message
                 key={message.id}
                 message={message.message}
+                avatar={message.user.avatar}
                 reversed={message.user.id === user?.id}
               />
             ))}
@@ -117,6 +120,7 @@ const LineDetail: NextPage = () => {
               <input
                 {...register("message", { required: true })}
                 type="text"
+                autoComplete={false}
                 className="w-full rounded-full border-gray-300 pr-12 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-purple-500"
               />
               <div className="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
