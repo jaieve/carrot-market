@@ -14,6 +14,7 @@ async function handler(
   const records = await client.record.findMany({
     where: {
       userId: user?.id,
+      kind: kind,
     },
     include: {
       product: {
