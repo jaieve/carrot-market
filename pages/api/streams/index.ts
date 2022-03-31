@@ -15,13 +15,23 @@ async function handler(
   } = req;
   if (req.method === "GET") {
     const streams = await client.stream.findMany({
-      // back = front - 1
-      // pageSize = 10
-
-      // take : pageSize
-      // skip : back * pageSize
-      take: Number(pageSize),
-      skip: Number(pageSize) * (Number(page) - 1),
+      /*       take: Number(pageSize),
+      skip: Number(pageSize) * (Number(page) - 1), */
+    });
+    streams.map(async (stream) => {
+      console.log(process.env.CF_ACCOUNT, stream.cloudflareKey);
+      const { result } = await (
+        await fetch(
+          `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT}/stream/live_inputs/${stream.cloudflareKey}/videos`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${process.env.CF_API_STREAM}`,
+            },
+          }
+        )
+      ).json();
+      console.log(result);
     });
     res.json({
       ok: true,
