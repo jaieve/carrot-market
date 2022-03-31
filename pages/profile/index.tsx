@@ -6,6 +6,7 @@ import useSWR from "swr";
 import { User, Review } from "@prisma/client";
 import { cls } from "@libs/client/utils";
 import Image from "next/image";
+import Button from "@components/button";
 
 interface ReviewWithUser extends Review {
   writer: User;
@@ -22,7 +23,7 @@ const Profile: NextPage = () => {
   return (
     <Layout hasTabBar title="나의 🍆">
       <div className="py-10 px-4">
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center">
           {user?.avatar ? (
             <img
               src={`https://imagedelivery.net/Jbn0son-X4aW02A0_gVqgA/${user?.avatar}/avatar`}
@@ -31,10 +32,19 @@ const Profile: NextPage = () => {
           ) : (
             <div className="h-16 w-16 rounded-full bg-slate-600" />
           )}
-          <div className="flex flex-col">
+          <div className="mx-5 flex flex-col">
             <span className="font-semibold text-gray-900">{user?.name}</span>
             <Link href="/profile/edit">
-              <a className="text-sm text-gray-700">Edit profile &rarr;</a>
+              <a className="align-middle text-sm text-gray-700">
+                Edit profile &rarr;
+              </a>
+            </Link>
+          </div>
+          <div className="w-[50%] text-right">
+            <Link href="/api/users/logout">
+              <a className="mr-0 rounded-md border p-2 align-middle text-xs text-gray-700 shadow-sm">
+                logout
+              </a>
             </Link>
           </div>
         </div>
